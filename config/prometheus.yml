@@ -1,0 +1,53 @@
+# Prometheus Configuration for Jetson Monitoring
+# Place this file at: /etc/prometheus/prometheus.yml
+
+global:
+  # How frequently to scrape targets
+  scrape_interval: 15s
+  
+  # How frequently to evaluate rules
+  evaluation_interval: 15s
+  
+  # Attach these labels to any time series or alerts
+  external_labels:
+    monitor: 'jetson-monitor'
+
+# Scrape configurations
+scrape_configs:
+  # Jetson Stats Metrics
+  - job_name: 'jetson-orin-nx'
+    static_configs:
+      - targets: ['localhost:8000']
+        labels:
+          instance: 'jetson-orin-nx'
+          job: 'jetson-stats'
+          device_type: 'orin-nx'
+    
+    # Scrape interval for this job (optional, overrides global)
+    scrape_interval: 10s
+    
+    # Timeout for scrape requests
+    scrape_timeout: 10s
+
+  # Prometheus self-monitoring (optional)
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+# Example: Multiple Jetson devices (uncomment and modify as needed)
+# - job_name: 'jetson-device-2'
+#   static_configs:
+#     - targets: ['192.168.1.100:8000']
+#       labels:
+#         instance: 'jetson-nano-01'
+#         location: 'lab'
+
+# Alerting configuration (optional)
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets: ['localhost:9093']
+
+# Rule files (optional)
+# rule_files:
+#   - '/etc/prometheus/rules/*.yml'
