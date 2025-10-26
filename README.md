@@ -2,9 +2,16 @@
 
 A complete monitoring solution for NVIDIA Jetson devices (Orin NX, Xavier, Nano) using Prometheus and Grafana. This system provides real-time monitoring of GPU, CPU, memory, temperature, power consumption, and more - accessible remotely via ZeroTier VPN.
 
-[![Jetson Monitoring Dashboard](https://img.shields.io/badge/Jetson-Monitoring-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://www.jetson-ai-lab.com/)
-[![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)](https://github.com/grafana/grafana)
-[![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)](https://github.com/prometheus/prometheus)
+<a href="https://www.jetson-ai-lab.com/" target="_blank">
+  <img src="https://img.shields.io/badge/Jetson-Monitoring-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="Jetson Monitoring Dashboard">
+</a>
+<a href="https://github.com/grafana/grafana" target="_blank">
+  <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana">
+</a>
+<a href="https://github.com/prometheus/prometheus" target="_blank">
+  <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus">
+</a>
+
 
 
 ## 📊 Features
