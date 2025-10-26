@@ -1,45 +1,20 @@
-# Jetson Orin NX Grafana Monitoring System
+# Jetson Orin NX Grafana Monitoring
 
 A complete monitoring solution for NVIDIA Jetson devices (Orin NX, Xavier, Nano) using Prometheus and Grafana. This system provides real-time monitoring of GPU, CPU, memory, temperature, power consumption, and more - accessible remotely via ZeroTier VPN.
 
 <div align="center">
 
-  <a href="https://www.jetson-ai-lab.com/" target="_blank">
+  <a href="https://www.jetson-ai-lab.com/">
     <img src="https://img.shields.io/badge/Jetson-Monitoring-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="Jetson Monitoring Dashboard">
   </a>
-  <a href="https://github.com/grafana/grafana" target="_blank">
+  <a href="https://github.com/grafana/grafana">
     <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana">
   </a>
-  <a href="https://github.com/prometheus/prometheus" target="_blank">
+  <a href="https://github.com/prometheus/prometheus">
     <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus">
   </a>
 
 </div>
-
-
-
-
-## 📊 Features
-
-- **Real-time Monitoring**
-  - GPU usage and frequency
-  - CPU usage per core
-  - RAM and SWAP memory
-  - Temperature sensors (CPU, GPU, SOC)
-  - Power consumption
-  - Fan speed
-  - Disk usage
-  - System uptime
-
-- **Remote Access**
-  - Access dashboard from anywhere via ZeroTier VPN
-  - No port forwarding required
-  - Secure peer-to-peer connection
-
-- **Auto-refresh Dashboard**
-  - Configurable refresh intervals (5s, 10s, 30s, 1m)
-  - Historical data visualization
-  - Customizable time ranges
 
 ## 🛠️ System Requirements
 
@@ -48,13 +23,6 @@ A complete monitoring solution for NVIDIA Jetson devices (Orin NX, Xavier, Nano)
 - **RAM**: At least 4GB available
 - **Disk**: ~500MB for Prometheus, Grafana, and metrics storage
 - **Network**: ZeroTier account (free for up to 100 devices)
-
-## 📦 Components
-
-1. **jetson-stats** - Python library for accessing Jetson metrics
-2. **Prometheus Metrics Collector** - Custom exporter for jetson-stats
-3. **Prometheus** - Time-series database for metrics storage
-4. **Grafana** - Visualization and dashboard platform
 
 ## 🚀 Quick Start
 
@@ -76,14 +44,14 @@ sudo reboot
 ```bash
 # Download the collector script
 sudo curl -o /usr/local/bin/jetson_stats_prometheus_collector.py \
-  https://raw.githubusercontent.com/YOUR_USERNAME/jetson-grafana-monitoring/main/jetson_stats_prometheus_collector.py
+  https://raw.githubusercontent.com/farukalamai/jetson-orin-grafana-monitoring/main/jetson_stats_prometheus_collector.py
 
 # Make it executable
 sudo chmod +x /usr/local/bin/jetson_stats_prometheus_collector.py
 
 # Create systemd service
 sudo curl -o /etc/systemd/system/jetson_stats_prometheus_collector.service \
-  https://raw.githubusercontent.com/YOUR_USERNAME/jetson-grafana-monitoring/main/jetson_stats_prometheus_collector.service
+  https://raw.githubusercontent.com/farukalamai/jetson-orin-grafana-monitoring/main/jetson_stats_prometheus_collector.service
 
 # Enable and start the service
 sudo systemctl daemon-reload
@@ -95,14 +63,14 @@ sudo systemctl start jetson_stats_prometheus_collector
 
 ```bash
 # Run the installation script
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/jetson-grafana-monitoring/main/install_prometheus.sh | bash
+curl -fsSL https://raw.githubusercontent.com/farukalamai/jetson-orin-grafana-monitoring/main/install_prometheus.sh | bash
 ```
 
 ### 4. Install Grafana
 
 ```bash
 # Run the installation script
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/jetson-grafana-monitoring/main/install_grafana.sh | bash
+curl -fsSL https://raw.githubusercontent.com/farukalamai/jetson-orin-grafana-monitoring/main/install_grafana.sh | bash
 ```
 
 ### 5. Configure ZeroTier (Optional but Recommended)
@@ -274,8 +242,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Support
 
-- **Issues**: [GitHub Issues](https://github.com/YOUR_USERNAME/jetson-grafana-monitoring/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/YOUR_USERNAME/jetson-grafana-monitoring/discussions)
+- **Issues**: [GitHub Issues](https://github.com/farukalamai/jetson-orin-grafana-monitoring/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/farukalamai/jetson-orin-grafana-monitoring/discussions)
 
 ## ⭐ Star History
 
