@@ -1,0 +1,13 @@
+[Unit]
+Description=Jetson Stats Prometheus Collector
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/bin/jetson_stats_prometheus_collector.py --port 8000
+Restart=always
+RestartSec=10
+User=root
+
+[Install]
+WantedBy=multi-user.target

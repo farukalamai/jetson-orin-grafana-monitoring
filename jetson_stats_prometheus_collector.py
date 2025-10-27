@@ -1,6 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+"""
+Jetson Stats Prometheus Collector
+Exports NVIDIA Jetson device metrics to Prometheus format
+Compatible with Jetson Orin, Xavier, Nano, TX series
+"""
+
 import atexit
 import argparse
 from jtop import jtop, JtopException
@@ -29,14 +35,15 @@ class JetsonStatsCollector(object):
             return float(data)
         elif isinstance(data, dict):
             # Try common keys
-            for key in ['val', 'value', 'cur', 'current', 'avg', 'speed']:
+            for key in ['val', 'value', 'cur', 'current', 'avg', 'speed', 'temp']:
                 if key in data:
                     return self.extract_value(data[key])
         return 0.0
 
     def collect(self):
         if self._jetson.ok():
-            # Board info - handle different structures
+            
+            # Board information
             try:
                 board_info = {}
                 if hasattr(self._jetson, 'board') and self._jetson.board:
@@ -69,12 +76,34 @@ class JetsonStatsCollector(object):
             try:
                 if hasattr(self._jetson, 'cpu') and self._jetson.cpu:
                     g = GaugeMetricFamily('jetson_usage_cpu', 'CPU % usage', labels=['cpu'])
-                    for cpu_name, cpu_data in self._jetson.cpu.items():
-                        try:
-                            value = self.extract_value(cpu_data)
-                            g.add_metric([cpu_name.lower()], value)
-                        except:
-                            pass
+                    
+                    cpu_data = self._jetson.cpu
+                    
+                    # Handle 'total' CPU usage (combined usage)
+                    if 'total' in cpu_data and isinstance(cpu_data['total'], dict):
+                        total_data = cpu_data['total']
+                        # Calculate total usage as 100 - idle
+                        if 'idle' in total_data:
+                            total_usage = 100.0 - float(total_data['idle'])
+                            g.add_metric(['total'], total_usage)
+                        elif 'user' in total_data and 'system' in total_data:
+                            total_usage = float(total_data.get('user', 0)) + float(total_data.get('system', 0))
+                            g.add_metric(['total'], total_usage)
+                    
+                    # Handle individual CPU cores (in 'cpu' list)
+                    if 'cpu' in cpu_data and isinstance(cpu_data['cpu'], list):
+                        for idx, core_data in enumerate(cpu_data['cpu']):
+                            if isinstance(core_data, dict):
+                                # Calculate usage as 100 - idle
+                                if 'idle' in core_data:
+                                    core_usage = 100.0 - float(core_data['idle'])
+                                elif 'user' in core_data and 'system' in core_data:
+                                    core_usage = float(core_data.get('user', 0)) + float(core_data.get('system', 0))
+                                else:
+                                    core_usage = 0.0
+                                
+                                g.add_metric([f'cpu{idx+1}'], core_usage)
+                    
                     yield g
             except Exception as e:
                 print(f"Warning: Could not collect CPU info: {e}")
@@ -128,16 +157,25 @@ class JetsonStatsCollector(object):
             except Exception as e:
                 print(f"Warning: Could not collect memory info: {e}")
 
-            # Temperature sensors
+            # Temperature sensors - FIXED VERSION
             try:
                 if hasattr(self._jetson, 'temperature') and self._jetson.temperature:
                     g = GaugeMetricFamily('jetson_temperatures', 'Temperature sensors Celsius', labels=['sensor'])
-                    for sensor_name, temp_value in self._jetson.temperature.items():
+                    for sensor_name, temp_data in self._jetson.temperature.items():
                         try:
-                            temp = self.extract_value(temp_value)
+                            temp = 0.0
+                            # Handle nested dict structure with 'temp' key
+                            if isinstance(temp_data, dict) and 'temp' in temp_data:
+                                temp = float(temp_data['temp'])
+                            elif isinstance(temp_data, dict) and 'val' in temp_data:
+                                temp = float(temp_data['val'])
+                            elif isinstance(temp_data, (int, float)):
+                                temp = float(temp_data)
+                            
+                            # Add metric (even if 0, which might be valid during boot)
                             g.add_metric([sensor_name.lower()], temp)
-                        except:
-                            pass
+                        except Exception as e:
+                            print(f"Warning: Could not process sensor '{sensor_name}': {e}")
                     yield g
             except Exception as e:
                 print(f"Warning: Could not collect temperature info: {e}")
@@ -191,7 +229,7 @@ class JetsonStatsCollector(object):
             except Exception as e:
                 print(f"Warning: Could not collect disk info: {e}")
 
-            # Stats (uptime, etc.)
+            # System uptime
             try:
                 if hasattr(self._jetson, 'stats') and self._jetson.stats:
                     stats = self._jetson.stats

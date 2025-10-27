@@ -103,31 +103,7 @@ Open your browser and navigate to:
 3. Select your Prometheus data source
 4. Click **Import**
 
-## 📁 Repository Structure
 
-```
-jetson-grafana-monitoring/
-├── README.md
-├── LICENSE
-├── .gitignore
-├── docs/
-│   ├── installation.md
-│   ├── troubleshooting.md
-│   └── screenshots/
-├── scripts/
-│   ├── jetson_stats_prometheus_collector.py
-│   ├── install_prometheus.sh
-│   ├── install_grafana.sh
-│   └── uninstall.sh
-├── config/
-│   ├── prometheus.yml
-│   ├── jetson_stats_prometheus_collector.service
-│   └── prometheus.service
-├── dashboards/
-│   └── grafana-dashboard.json
-└── examples/
-    └── deepstream-integration/
-```
 
 ## 🔧 Configuration
 
@@ -229,26 +205,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [jetson-stats](https://github.com/rbonghi/jetson_stats) by Raffaello Bonghi
-- [Prometheus](https://prometheus.io/)
-- [Grafana](https://grafana.com/)
-- [ZeroTier](https://www.zerotier.com/)
-
-## 📧 Support
-
-- **Issues**: [GitHub Issues](https://github.com/farukalamai/jetson-orin-grafana-monitoring/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/farukalamai/jetson-orin-grafana-monitoring/discussions)
-
-## ⭐ Star History
-
-If you find this project useful, please consider giving it a star!
-
----
 
 **Made with ❤️ for the Jetson Community**
